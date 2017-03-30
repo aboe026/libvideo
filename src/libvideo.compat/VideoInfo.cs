@@ -79,7 +79,7 @@ namespace YoutubeExtractor
 
         public bool CanExtractAudio => false;
 
-        public string DownloadUrl => video.Uri;
+        public string DownloadUrl => video.GetUri();
 
         public int FormatCode
         {

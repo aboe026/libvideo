@@ -166,8 +166,10 @@ namespace VideoLibrary
 			*/
 
             int index = 0;
+            string functNamePattern = @"\""signature"",\s?([a-zA-Z0-9\$]+)\("; //Regex Formed To Find Word or DollarSign
+            Regex regex = new Regex(functNamePattern);
 
-			while (true)
+            while (true)
             {
                 index = js.IndexOf(SigTrig, index);
                 if (index == -1)
@@ -175,8 +177,7 @@ namespace VideoLibrary
                     // Didn't find function in the old way -> Try the new way
 
                     //Find "C" in this: var A = B.sig||C (B.s)
-                    string functNamePattern = @"\""signature"",\s?([a-zA-Z0-9\$]+)\("; //Regex Formed To Find Word or DollarSign
-                    var match = Regex.Match(js,functNamePattern);
+                    var match = regex.Match(js);
                     if (match != null && match.Success)
                     {
                         var funcName = match.Groups[1].Value;
@@ -281,7 +282,7 @@ namespace VideoLibrary
             // function foo(){...}, or
             // var foo=function(){...}, or
             // nh.foo=function(){...}
-            return Regex.Match(js,@"(?!h\.)" + function + @"=function\(\w+\)\{.*?\}",RegexOptions.Singleline).Index;
+            return new Regex(@"(?!h\.)" + function + @"=function\(\w+\)\{.*?\}", RegexOptions.Singleline).Match(js).Index;
         }
 
         private int NumericParam(string line)

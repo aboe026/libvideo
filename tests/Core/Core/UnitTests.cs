@@ -33,7 +33,7 @@ namespace Core
 
             foreach (var video in videos)
             {
-                Assert.NotNull(video.Uri);
+                Assert.NotNull(video.GetUriAsync().Result);
                 Assert.Equal(video.WebSite, WebSites.YouTube);
             }
         }
